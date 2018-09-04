@@ -209,12 +209,10 @@ def abilities_fn():
         print("  ", '{}{}'.format(char_race, race_desc[char_race]))
 
 
-
 def race_fn():
     global char_race
     print("  (R)andom")
     char_race = input("\nEnter Your Race (effects age, height, weight) [R]:\n ")
-    user_race = char_race
     if char_race in valid_race_list:
         pass
     elif char_race in ("R", "r", "Random", "random", ""):
@@ -223,69 +221,7 @@ def race_fn():
         print("Race not available")
         race_fn()
 
-def class_fn():
-    global class_validation_item
-    valid_classes = []
-    #classes_temp_dict = class_list
 
-    for class_validation_item in class_list:
-        isValidClass = True
-        #valid_class_counter = 0
-
-        permits_list = class_list[class_validation_item]['permit']
-
-        for class_att in class_list[class_validation_item]:
-            if rolled_stats[class_att] < class_list[class_validation_item][class_att]:
-                isValidClass = False
-                break
-        if isValidClass and (race in permits_list or all in permits_list):
-            valid_classes.append(class_validation_item)
-                #valid_class_counter += 1
-    return valid_classes
-
-
-def adv_npc_fn():
-    adv_npc = input("Select (A)dventurer or (N)PC Class [A]: ")
-    if adv_npc in ("A", "a", "Adventurer", "adventurer", ""):
-        validate_race_to_class(class_desc)
-        choose_class()
-    elif adv_npc in ("N", "n", "NPC", "npc"):
-        choose_class_npc()
-    else:
-        print("Invalid option")
-        adv_npc_fn()
-
-def choose_class_npc():
-    global npc_class
-    print("Available Classes Include:")
-    print("  (R)andom")
-    for npc_class in class_npc:
-        print("  ", npc_class)
-    npc_class = input("Enter NPC Class [R] ")
-    if npc_class in ("R", "r", "Random", "random", ""):
-        npc_class = (random.choice(class_npc))
-    elif npc_class not in class_npc:
-        print("Class not available")
-        choose_class_npc()
-    global char_class
-    char_class = npc_class
-adv_npc_fn()
-
-
-def choose_class():
-    global char_class
-    print("Available Classes Include:")
-    print("  (R)andom")
-    for char_class in class_fn():
-        print("  ", char_class)
-    char_class = input("Enter Your Class [R]: ")
-    if char_class in ("R", "r", "Random", "random", ""):
-        char_class = (random.choice(class_list))
-    elif char_class not in class_list:
-        print("Class not available")
-        choose_class()
-    else:
-        pass
 
 
 
@@ -298,4 +234,3 @@ name_fn()
 gender_fn()
 abilities_fn()
 race_fn()
-choose_class()
