@@ -1,5 +1,17 @@
-import random, os
+import random, os, re
 from tools_data import *
+# from name_info import player_name, gender
+
+
+def roll_dice(roll):
+    values = [int(x) for x in re.findall(r'\d+', roll)]
+    drop = 0
+    if 'D' in roll:
+        drop = values[2]
+    top_rolls = sorted(list(random.randint(1, values[1]) for _ in range(values[0])))
+    return sum(top_rolls[drop:])
+
+
 d6 = lambda: random.randint(1, 6)
 
 
@@ -32,7 +44,6 @@ def main():
     rolled_stats = rollout_attributes()
     global valid_race_list
     valid_race_list = []
-    print(rolled_stats)
     for race in sorted(race_list):  # Loop through all races dictionary
         valid_counter = 0  # Set valid_counter for attribute stat checks for a race
         for stat in sorted(race_list[race]):  # Loop through a race stats dictionary
@@ -44,9 +55,6 @@ def main():
             valid_race_list.append(race)
 
     os.system('clear')
-    print("\nYour rolled ability scores allow your character to be any of the following:\n")  # Output a valid race
-    for char_race in valid_race_list:
-        print("  ", '{}{}'.format(char_race, race_desc[char_race]))
 
     # This is the formula for Ability Modifiers.
     # str_mod = (Strength - 10) // 2
@@ -67,13 +75,64 @@ def main():
     rolled_stats.update(modifiers)
     print('\nScores with Modifiers:\n')
     print('''\
-        str: {str} ({str_mod:+d})
-        dex: {dex} ({dex_mod:+d})
-        con: {con} ({con_mod:+d})
-        int: {int} ({int_mod:+d})
-        wis: {wis} ({wis_mod:+d})
-        cha: {cha} ({cha_mod:+d})\
+    str: {str} ({str_mod:+d})
+    dex: {dex} ({dex_mod:+d})
+    con: {con} ({con_mod:+d})
+    int: {int} ({int_mod:+d})
+    wis: {wis} ({wis_mod:+d})
+    cha: {cha} ({cha_mod:+d})\
         '''.format(**rolled_stats))
+
+    reroll = input("\n  Do you want to (C)ontinue or (R)eroll? [C]: \n")
+    if reroll in ("R", "r", "Reroll", "reroll"):
+        os.system('clear')
+        main()
+    else:
+        races()
+
+
+def races():
+    print("Your rolled ability scores allow your character to be any of the following:\n")  # Output a valid race
+    for char_race in valid_race_list:
+        print("  ", '{} {}'.format(char_race, race_desc[char_race]))
+
+    user_race = input('\n  Choose a Race from the list above:\n')
+    if user_race in valid_race_list:
+        start_race = '{}_race()'.format(user_race.lower())
+        eval(start_race)
+    else:
+        os.system('clear')
+        print('oops')
+        races()
+
+
+def dwarf_race():
+    print('Dwarf Race Function = Delete this notice after testing')
+
+
+def elf_race():
+    print('Elf Race Function = Delete this notice after testing')
+
+
+def half_elf_race():
+    print('Half Elf Race Function = Delete this notice after testing')
+
+
+def halfling_race():
+    print('Halfling Race Function = Delete this notice after testing')
+
+
+def gnome_race():
+    print('Gnome Race Function = Delete this notice after testing')
+
+
+def human_race():
+    print('Human Race Function = Delete this notice after testing')
+
+
+def classes():
+    print('Classes Function')
+
 
 if __name__ == '__main__':
     main()
