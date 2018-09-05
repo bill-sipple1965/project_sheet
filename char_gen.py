@@ -98,7 +98,7 @@ def races():
 
     user_race = input('\n  Choose a Race from the list above:\n')
     if user_race in valid_race_list:
-        chosen_race = '{}_race()'.format(chosen_race.lower()) ## lowercase to use for function calls
+        chosen_race = '{}_race()'.format(user_race.lower()) ## lowercase to use for function calls
         eval(chosen_race) ## move to the chosen race function
     else:
         os.system('clear')
